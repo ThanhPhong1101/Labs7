@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -45,20 +47,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     /**
-     * Relationship
+     * Relationship one to many
      * @return HasMany
      */
     public function posts(): HasMany
     {
         return $this->hasMany(Posts::class);
     }
-    public function favorities(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favorities(): BelongsToMany
     {
         return $this->belongsToMany(Favorities::class, 'user_favorite', 'user_id', 'favorite_id');
-    }
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
     }
 }

@@ -129,7 +129,12 @@
 <div class="container">
     <div class="header">
         <h1>User Management System</h1>
-        <p>{{ session()->get('mess') }}</p>
+{{--        <p>{{ session()->get('mess') }}</p>--}}
+        @if(session('mess'))
+            <div>
+                {{session('mess')}}
+            </div>
+            @endif
     </div>
 
     <div class="content">
@@ -156,11 +161,8 @@
                                 <input type="hidden" name="user_id" value="{{ $nguoidung->id }}">
                                 <button class="button Detail" type="submit">Xem</button>
                             </form>
-                            <form action="{{ route('submit_delete') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="user_id" value="{{ $nguoidung->id }}">
-                                <button class="button button-danger Detail1" type="submit">Xóa</button>
-                            </form>
+                            <a href="{{url('submit_delete',['id' => $nguoidung->id])}}">
+                                <button>xoa</button></a>
                         </td>
                     </tr>
                 @endforeach

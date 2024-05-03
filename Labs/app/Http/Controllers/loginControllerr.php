@@ -30,32 +30,20 @@ class loginControllerr
 
         return redirect()->back()->with(['result' => $posts, 'idnguoidung'=> $users, 'sothich' => $favorites, 'profile' => $profile]);
     }
-    public function submitDelete(Request $request): \Illuminate\Http\RedirectResponse
+    public function submitDelete($id)
     {
-        $id = $request->input('user_id');
-
-        $posts = Posts::where('user_id', $id)->get();
-
         $user = User::find($id);
-        $userprofile = Profile::find($id);
 
-        $favorites = $user->favorities()->get();
+        $HashPost = Posts::where('user_id',$user->id)->exists();
 
-        $mess = "chua thuc hien";
-
-        if ($favorites->isEmpty()) {
-            if ($posts->isEmpty()){
-                $user->delete();
-                $userprofile->delete();
-                $mess ="Xóa nguời dùng thành công";
-            }
-            else{
-                $mess ="Không thể xóa do người dùng này có bài viết";
-            }
-        } else {
-            $mess ="Không thể xóa do người dùng này có sở thích";
+        $favorites = $user->favorities()->exists();
+        $profile = $user->profile;
+        if($HashPost||$favorites){
+            return redirect('/')->with('mess','Khong xoa dc');
         }
-        return redirect()->back()->with(['mess' => $mess]);
+        User::destroy($id);
+        Profile::destroy($id);
 
+        return redirect('/')->with('mess','Xoa dc');
     }
 }
