@@ -154,12 +154,12 @@
                             <form action="{{ route('submit') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ $nguoidung->id }}">
-                                <button class="button Detail" type="submit">Details</button>
+                                <button class="button Detail" type="submit">Xem</button>
                             </form>
                             <form action="{{ route('submit_delete') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ $nguoidung->id }}">
-                                <button class="button button-danger Detail1" type="submit">Delete</button>
+                                <button class="button button-danger Detail1" type="submit">Xóa</button>
                             </form>
                         </td>
                     </tr>
